@@ -14,13 +14,14 @@ type Props = {
 class Row extends Component<Props> {
   render() {
     const { name, height, mass, birth_year, gender } = this.props.person;
+    const values = [name, height, mass, birth_year, gender];
     return (
       <div className="row">
-        <span className="row-span">{name}</span>
-        <span className="row-span">{height}</span>
-        <span className="row-span">{mass}</span>
-        <span className="row-span">{birth_year}</span>
-        <span className="row-span">{gender}</span>
+        {values.map((value, index) => (
+          <span key={index} className="row-span">
+            {value}
+          </span>
+        ))}
       </div>
     );
   }
