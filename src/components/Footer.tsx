@@ -1,10 +1,15 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { PureComponent } from 'react';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
-type Props = {};
-
-class Footer extends PureComponent<Props> {
+import '@components/Footer.scss';
+class Footer extends PureComponent {
   render() {
-    return <div>Footer</div>;
+    return (
+      <a className="footer-link" target="_blank" href="https://github.com/Nimlu-bot">
+        <FontAwesomeIcon icon={faGithub} size="2x" />
+      </a>
+    );
   }
 }
 
