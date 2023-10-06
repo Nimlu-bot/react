@@ -11,7 +11,7 @@ export type peopleResponse = {
     [key: string]: string | Record<string, unknown>;
   }[];
 };
-export const getPeople = async (searchString: string): Promise<peopleResponse> => {
+export const getPeople = async (searchString?: string): Promise<peopleResponse> => {
   let peopleUrl = `${url}${peopleEndpoint}`;
   if (searchString) {
     peopleUrl = `${peopleUrl}?search=${searchString}`;

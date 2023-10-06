@@ -1,33 +1,30 @@
 import React, { PureComponent } from 'react';
-import SearchContext from '@/SearchContext';
-import { getPeople } from '@/api';
-import type { peopleResponse } from '@/api';
+import { getPeople } from '@/utils/api';
+import type { peopleResponse } from '@/utils/api';
 
 import '@components/Main.scss';
 import Row from '@/components/Row';
 
-type Props = {};
-type State = {} & Pick<peopleResponse, 'results'>;
+type Props = { isLoading: boolean } & Pick<peopleResponse, 'results'>;
+
 const columnNames = ['Name', 'Height', 'Mass', 'Birth', 'Gender'];
 
-class main extends PureComponent<Props, State> {
-  static contextType = SearchContext;
-  declare context: React.ContextType<typeof SearchContext>;
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      results: [{ name: '', height: '', mass: '', birth_year: '', gender: '' }],
-    };
-  }
-
-  componentDidMount(): void {
-    getPeople(this.context.searchParams.searchString).then((people) => {
-      this.setState({ results: people.results });
-    });
-  }
-
+class main extends PureComponent<Props> {
   render() {
-    const { results } = this.state;
+    const { results, isLoading } = this.props;
+    let table;
+    if (isLoading) {
+      table = <div className="table-message">Loading...</div>;
+    } else {
+      table = results?.length ? (
+        results.map((result, index) => {
+          return <Row person={result} key={index} />;
+        })
+      ) : (
+        <div className="table-message">No results</div>
+      );
+    }
+
     return (
       <div className="main">
         <div className="table">
@@ -38,10 +35,7 @@ class main extends PureComponent<Props, State> {
               </span>
             ))}
           </div>
-          {results?.length &&
-            results.map((result, index) => {
-              return <Row person={result} key={index} />;
-            })}
+          {table}
         </div>
       </div>
     );

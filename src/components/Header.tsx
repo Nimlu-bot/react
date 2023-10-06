@@ -1,17 +1,18 @@
 import React, { FormEvent, PureComponent } from 'react';
+import Search from '@/components/Search';
 
 import '@components/Header.scss';
-import Search from '@/components/Search';
-import SearchContext from '@/SearchContext';
-type Props = {};
+
+type Props = {
+  defaultString: string;
+  setSearchString: (s: string) => void;
+};
 
 type FormObject = {
   search: string;
 };
 
 class Header extends PureComponent<Props> {
-  static contextType = SearchContext;
-  declare context: React.ContextType<typeof SearchContext>;
   constructor(props: Props) {
     super(props);
     this.onSearch = this.onSearch.bind(this);
@@ -21,14 +22,14 @@ class Header extends PureComponent<Props> {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const formObject = Object.fromEntries(formData.entries()) as FormObject;
-    this.context.setSearchString({ searchString: formObject.search.trim() });
+    this.props.setSearchString(formObject.search.trim());
   }
 
   render() {
-    const { searchParams } = this.context;
+    const { defaultString } = this.props;
     return (
       <div className="header">
-        <Search onSearch={this.onSearch} defaultValue={searchParams.searchString} />
+        <Search onSearch={this.onSearch} defaultValue={defaultString} />
       </div>
     );
   }
