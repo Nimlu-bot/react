@@ -5,7 +5,7 @@ import Main from '@/components/Main';
 import { getLocalData, setLocalData } from '@/utils/local';
 import React, { Component } from 'react';
 
-type Props = {};
+type Props = Record<string, never>;
 
 type State = {
   searchString: string;
